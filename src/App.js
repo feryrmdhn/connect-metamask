@@ -32,7 +32,7 @@ function App() {
       });
   }
 
-  // kondisi jika wallet (Metamask extension) belum terinstall
+  // condition if wallet (Metamask extension) havn't installed
   if (account === null) {
     return <div className="App">
       {isWalletInstalled ? <button onClick={connectWallet}>Connect Wallet</button>
