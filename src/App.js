@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   const [isWalletInstalled, setIsWalletInstalled] = useState(false);
 
-  // state untuk tracking akun.
+  // state for tracking account.
   const [account, setAccount] = useState(null);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function App() {
     }
   }, []);
 
-  // inisialisasi provider
+  // initialize provider
   const provider = new providers.Web3Provider(window.ethereum);
 
   const connectWallet = async () => {
@@ -25,7 +25,7 @@ function App() {
       .then((accounts) => {
         const signer = provider.getSigner()
         setAccount(accounts[0]);
-        alert(`Berhasil terhubung ke: ${signer.provider.connection.url}`);
+        alert(`Success connected to: ${signer.provider.connection.url}`);
       })
       .catch((error) => {
         alert(error.message);
@@ -35,7 +35,7 @@ function App() {
   // kondisi jika wallet (Metamask extension) belum terinstall
   if (account === null) {
     return <div className="App">
-      {isWalletInstalled ? <button onClick={connectWallet}>Hubungkan Wallet</button>
+      {isWalletInstalled ? <button onClick={connectWallet}>Connect Wallet</button>
         :
         <p>Install Metamask wallet</p>
       }
@@ -44,7 +44,7 @@ function App() {
 
   return (
     <div className="App">
-      <p>Terhubung pada alamat: {account}</p>
+      <p>Connected at address: {account}</p>
     </div>
   );
 }
