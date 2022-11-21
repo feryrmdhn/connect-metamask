@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+## Simple React App to Connect Metamask Wallet
+
+<b>Note:</b> Please use and activate VPN to connect on metamask.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
