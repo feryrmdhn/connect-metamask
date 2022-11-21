@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { providers } from "ethers";
 import './App.css';
+import Web3 from "web3";
 
 function App() {
   const [isWalletInstalled, setIsWalletInstalled] = useState(false);
@@ -8,11 +9,41 @@ function App() {
   // state for tracking account.
   const [account, setAccount] = useState(null);
 
+  // state for tracking network.
+  const [defaultNetwork, setDefaultNetwork] = useState('')
+  const [network, setNetwork] = useState('')
+
+  //list id network
+  const memoize = useMemo(() => {
+    return {
+      1: "Eth Mainnet",
+      4: "Eth Rinkeby",
+      5: "Eth Goerli",
+      97: "Binance (BNB) Testnet"
+    }
+  }, [])
+
   useEffect(() => {
     if (window.ethereum) {
       setIsWalletInstalled(true);
+      setDefaultNetwork(memoize[window.ethereum.networkVersion])
     }
-  }, []);
+  }, [memoize]);
+
+  useEffect(() => {
+    window.addEventListener("load", function () {
+      if (window.ethereum) {
+        App.web3 = new Web3(window.ethereum);
+        window.ethereum.enable(); // get permission to access accounts
+
+        // detect Network account change
+        window.ethereum.on('networkChanged', function (networkId) {
+          setNetwork(memoize[networkId])
+        });
+      }
+    });
+  }, [memoize])
+
 
   // initialize provider
   const provider = new providers.Web3Provider(window.ethereum);
@@ -42,9 +73,12 @@ function App() {
     </div>
   };
 
+
   return (
     <div className="App">
       <p>Connected at address: {account}</p>
+      <p>Default Network : {defaultNetwork}</p>
+      <p>Change Network to : {network}</p>
     </div>
   );
 }
